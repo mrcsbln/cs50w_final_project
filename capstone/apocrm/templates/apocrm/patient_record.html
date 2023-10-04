@@ -1,0 +1,167 @@
+{% extends 'apocrm/layout.html' %}
+
+{% block content %}
+
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <strong>
+          {{ patient_record.first_name }}
+          {{ patient_record.last_name }},
+          {{ patient_record.date_of_birth|date:"d.m.Y" }}
+        </strong>
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <div class="card-body">
+          <table class="table">
+              <tbody>
+                <tr>
+                  <td>Adresse:</td>
+                  <td>{{ patient_record.street }}, {{ patient_record.postal_code }} {{ patient_record.city}}</td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td>{{ patient_record.email }}</td>
+                </tr>
+                <tr>
+                  <td>Telefon:</td>
+                  <td>{{ patient_record.phone_number }}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <strong>weitere Informationen</strong>
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Abteilung:</td>
+              <td>{{ patient_record.get_department_display }}</td>
+            </tr>
+            <tr>
+              <td>Beschreibung:</td>
+              <td>
+                {{ patient_record.case_description }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        <strong>Arzneimittel</strong>
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Arzneimittel:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.drug }}
+                  {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td>PZN:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.pzn }}
+                  {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td>Indikation:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.indication }}<br>
+                  {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td>Dosierung:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.dosage }}<br>
+                  {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td>Indikation:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.indication }}<br>
+                  {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <td>Bemerkungen:</td>
+              <td>
+                  {% for drug in drugs %}
+                      {{ drug.notes }}<br>
+                  {% endfor %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<a class="btn btn-secondary" href="{% url 'index' %}" role="button">Zurück</a>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Löschen</button>
+<a class="btn btn-dark" href="{% url 'edit_patient_record' patient_record.id %}" role="button">Bearbeiten</a>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Eintrag löschen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Patient endgültig löschen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <a class="btn btn-danger" id="confirmDeleteButton">Löschen</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    var deleteButton = document.querySelector('button[data-bs-toggle="modal"]');
+    var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+    deleteButton.addEventListener('click', () => {
+      confirmDeleteButton.href = "{% url 'delete_patient_record' patient_record.id %}";
+    });
+  });
+</script>
+
+
+{% endblock %}

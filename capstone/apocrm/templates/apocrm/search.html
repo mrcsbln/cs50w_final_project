@@ -1,0 +1,33 @@
+{% extends 'apocrm/layout.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Suchergebnisse für "{{ searched }}"</h2>
+    {% if patients %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Geburtsdatum</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.first_name }}</td>
+                        <td>{{ patient.last_name }}</td>
+                        <td>{{ patient.date_of_birth|date:"d.m.Y" }}</td>
+                        <td>
+                            <a href="{% url 'patient_record' patient.pk %}" class="btn btn-secondary">Anzeigen</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Keine Ergebnisse gefunden.</p>
+    {% endif %}
+</div>
+{% endblock %}

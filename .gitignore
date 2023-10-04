@@ -1,0 +1,28 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.env
+
+# Database
+*.sqlite3
+
+# Django specific
+*.pot
+*.log
+
+# macOS system files
+.DS_Store
+
+# IDE-specific
+.idea/
+.vscode/
+
+# Files generated during deployment
+staticfiles/
+media/
+
+# Pipenv & requirements
+Pipfile.lock

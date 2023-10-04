@@ -1,0 +1,7 @@
+h1 {
+    font-size: 1.33em;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #f8f9fa !important; /* leichtes Grau */
+}

@@ -1,0 +1,15 @@
+{% extends 'apocrm/layout.html' %}
+
+{% block content %}
+
+<div class="col-md-6 offset-md-3 mb-4">
+    <h1>Patient bearbeiten</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button type="submit" class="btn btn-secondary">Senden</button>
+    </form>
+</div>
+
+{% endblock %}
